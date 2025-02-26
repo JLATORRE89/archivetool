@@ -2,6 +2,8 @@
 
 A Python application for creating self-contained offline archives of websites. Available in both GUI and CLI versions, with support for dynamic content and optimization features.
 
+## Build Status: Broken
+
 ## Features
 
 - Complete website downloading with asset preservation
