@@ -1,0 +1,9 @@
+beautifulsoup4==4.12.2
+requests==2.31.0
+urllib3==2.1.0
+lxml==4.9.3
+Pillow==10.1.0  # For image processing and compression
+selenium==4.15.2  # For AJAX content capture
+webdriver-manager==4.0.1  # For managing selenium webdrivers
+# Optional but recommended for better HTML parsing
+html5lib==1.1

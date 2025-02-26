@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Archiver Manual</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+
+        .toc {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #e1e4e8;
+        }
+
+        .toc ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: #0366d6;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            border: 1px solid #e1e4e8;
+            border-radius: 5px;
+        }
+
+        .section-header {
+            background: #f1f1f1;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header:hover {
+            background: #e9e9e9;
+        }
+
+        .section-content {
+            display: none;
+            padding: 20px;
+            background: white;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        code {
+            background: #f6f8fa;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        pre {
+            background: #f6f8fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #e1e4e8;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .section-header.active .toggle-icon {
+            transform: rotate(90deg);
+        }
+
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        th, td {
+            border: 1px solid #e1e4e8;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: #f6f8fa;
+        }
+    </style>
+</head>
+<body>
+    <h1>Website Archiver Manual</h1>
+    
+    <div class="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#cli-usage">CLI Usage</a></li>
+            <li><a href="#gui-usage">GUI Usage</a></li>
+            <li><a href="#container-usage">Container Usage</a></li>
+            <li><a href="#configuration">Configuration</a></li>
+            <li><a href="#troubleshooting">Troubleshooting</a></li>
+            <li><a href="#advanced">Advanced Usage</a></li>
+        </ul>
+    </div>
+
+    <div class="section" id="introduction">
+        <div class="section-header">
+            <h2>Introduction</h2>
+            <span class="toggle-icon">▶</span>
+        </div>
+        <div class="section-content">
+            <p>Website Archiver is a powerful tool for creating offline copies of websites. It supports both graphical and command-line interfaces, making it suitable for various use cases from simple one-off archives to automated batch processing.</p>
+            
+            <h3>Key Features</h3>
+            <ul>
+                <li>Complete website downloading with asset preservation</li>
+                <li>Multi-threaded architecture for faster downloads</li>
+                <li>Detailed logging system</li>
+                <li>Progress tracking and status updates</li>
+                <li>Container support for easy deployment</li>
+                <li>Both GUI and CLI interfaces</li>
+                <li>Configurable output directory structure</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section" id="installation">
+        <div class="section-header">
+            <h2>Installation</h2>
+            <span class="toggle-icon">▶</span>
+        </div>
+        <div class="section-content">
+            <h3>Container Installation (Recommended)</h3>
+            <pre>git clone https://github.com/yourusername/website-archiver
+cd website-archiver
+podman build -t website-archiver .</pre>
+
+            <h3>Manual Installation</h3>
+            <pre>git clone https://github.com/yourusername/website-archiver
+cd website-archiver
+pip install -r requirements.txt</pre>
+
+            <h3>System Requirements</h3>
+            <ul>
+                <li>Python 3.8 or higher</li>
+                <li>For GUI: Tkinter support</li>
+                <li>For container: Podman or Docker</li>
+            </ul>
+
+            <div class="note">
+                <strong>Note:</strong> If you're using the GUI version, ensure your system has Tkinter installed. On Ubuntu/Debian, you can install it with: <code>sudo apt-get install python3-tk</code>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="cli-usage">
+        <div class="section-header">
+            <h2>CLI Usage</h2>
+            <span class="toggle-icon">▶</span>
+        </div>
+        <div class="section-content">
+            <h3>Basic Usage</h3>
+            <pre>python -m archiver.cli https://example.com</pre>
+
+            <h3>Command Line Options</h3>
+            <table>
+                <tr>
+                    <th>Option</th>
+                    <th>Description</th>
+                    <th>Default</th>
+                </tr>
+                <tr>
+                    <td><code>-o, --output</code></td>
+                    <td>Output directory path</td>
+                    <td>~/website_archives</td>
+                </tr>
+                <tr>
+                    <td><code>-t, --threads</code></td>
+                    <td>Number of download threads</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td><code>-q, --quiet</code></td>
+                    <td>Suppress progress output</td>
+                    <td>False</td>
+                </tr>
+                <tr>
+                    <td><code>--verify-ssl</code></td>
+                    <td>Enable SSL verification</td>
+                    <td>True</td>
+                </tr>
+            </table>
+
+            <h3>Example Commands</h3>
+            <pre># Archive with custom output directory
+python -m archiver.cli https://example.com -o /path/to/output
+
+# Use 10 download threads
+python -m archiver.cli https://example.com -t 10
+
+# Quiet mode with no progress output
+python -m archiver.cli https://example.com -q</pre>
+        </div>
+    </div>
+
+    <div class="section" id="gui-usage">
+        <div class="section-header">
+            <h2>GUI Usage</h2>
+            <span class="toggle-icon">▶</span>
+        </div>
+        <div class="section-content">
+            <h3>Starting the GUI</h3>
+            <pre>python -m archiver.gui</pre>
+
+            <h3>Interface Components</h3>
+            <ul>
+                <li><strong>URL Input:</strong> Enter the website URL to archive</li>
+                <li><strong>Output Directory:</strong> Choose where to save the archive</li>
+                <li><strong>Progress Bar:</strong> Shows download progress</li>
+                <li><strong>Status Display:</strong> Shows current activity and file being processed</li>
+                <li><strong>Control Buttons:</strong> Start and stop the archiving process</li>
+            </ul>
+
+            <div class="note">
+                <strong>Tip:</strong> You can stop the archiving process at any time by clicking the Stop button. The partial archive will be preserved.
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="container-usage">
+        <div class="section-header">
+            <h2>Container Usage</h2>
+            <span class="toggle-icon">▶</span>
+        </div>
+        <div class="section-content">
+            <h3>CLI Mode</h3>
+            <pre>podman run -v /path/to/output:/data website-archiver cli https://example.com</pre>
+
+            <h3>GUI Mode</h3>
+            <pre>podman run -e DISPLAY=$DISPLAY \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v /path/to/output:/data \
+    website-archiver gui</pre>
+
+            <h3>Container Volumes</h3>
+            <ul>
+                <li><code>/data</code>: Main output directory</li>
+                <li><code>/data/logs</code>: Log files location</li>
+            </ul>
+
+            <div class="note">
+                <strong>Note:</strong> For GUI mode, ensure X11 forwarding is properly configured on your system.
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="configuration">
+        <div class="section-header">
+            <h2>Configuration</h2>
+            <span class="toggle-icon">▶</span>
+        </div>
+        <div class="section-content">
+            <h3>Output Directory Structure</h3>
+            <pre>output_directory/
+├── index.html
+├── assets/
+│   ├── css/
+│   ├── js/
+│   └── images/
+└── logs/
+    └── archiver.log</pre>
+
+            <h3>Logging Configuration</h3>
+            <p>Logs are stored in the <code>logs</code> directory and contain:</p>
+            <ul>
+                <li>Download status for each page</li>
+                <li>Error messages and warnings</li>
+                <li>Processing information for assets</li>
+                <li>Overall archive statistics</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section" id="troubleshooting">
+        <div class="section-header">
+            <h2>Troubleshooting</h2>
+            <span class="toggle-icon">▶</span>
+        </div>
+        <div class="section-content">
+            <h3>Common Issues</h3>
+            <table>
+                <tr>
+                    <th>Problem</th>
+                    <th>Solution</th>
+                </tr>
+                <tr>
+                    <td>SSL Certificate Errors</td>
+                    <td>Use <code>--no-verify-ssl</code> option</td>
+                </tr>
+                <tr>
+                    <td>Missing Assets</td>
+                    <td>Check website's robots.txt and JavaScript-loaded content</td>
+                </tr>
+                <tr>
+                    <td>Slow Downloads</td>
+                    <td>Increase thread count with <code>-t</code> option</td>
+                </tr>
+            </table>
+
+            <h3>Log File Analysis</h3>
+            <p>Check the log file at <code>output_directory/logs/archiver.log</code> for detailed error messages and debugging information.</p>
+        </div>
+    </div>
+
+        <div class="section" id="deployment">
+            <div class="section-header">
+                <h2>Deploying Archived Sites</h2>
+                <span class="toggle-icon">▶</span>
+            </div>
+            <div class="section-content">
+                <h3>NGINX Container Deployment</h3>
+                <p>You can easily serve archived websites using NGINX in a container. Follow these steps:</p>
+
+                <h4>1. Prepare the Archive</h4>
+                <pre>
+    # Archive your website
+    python -m archiver.cli https://example.com -o ./archive
+
+    # Verify the archive structure
+    ls archive/
+    # Should see: index.html, assets/, etc.</pre>
+
+                <h4>2. Create Deployment Files</h4>
+                <p>Create these files in your deployment directory:</p>
+
+                <div class="example">
+                    <h5>Containerfile.nginx:</h5>
+                    <pre>FROM nginx:stable-alpine
+
+    WORKDIR /usr/share/nginx/html
+    COPY archive/ .
+    COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+    EXPOSE 80
+
+    CMD ["nginx", "-g", "daemon off;"]</pre>
+                </div>
+
+                <div class="example">
+                    <h5>nginx.conf:</h5>
+                    <pre>server {
+        listen 80;
+        server_name localhost;
+        root /usr/share/nginx/html;
+        index index.html;
+
+        gzip on;
+        gzip_types text/plain text/html text/css application/javascript;
+        
+        location / {
+            try_files $uri $uri/ /index.html;
+            expires 30d;
+        }
+    }</pre>
+                </div>
+
+                <h4>3. Build and Run the Container</h4>
+                <pre>
+    # Build the container
+    podman build -f Containerfile.nginx -t archived-site
+
+    # Run the container
+    podman run -d -p 8080:80 archived-site
+
+    # Access your site
+    # Open http://localhost:8080 in your browser</pre>
+
+                <h4>4. Optional: Configure SSL</h4>
+                <p>To enable HTTPS:</p>
+                <pre>
+    # Generate self-signed certificate
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+        -keyout nginx-selfsigned.key \
+        -out nginx-selfsigned.crt
+
+    # Update nginx.conf to include SSL
+    server {
+        listen 443 ssl;
+        ssl_certificate /etc/nginx/ssl/nginx-selfsigned.crt;
+        ssl_certificate_key /etc/nginx/ssl/nginx-selfsigned.key;
+        ...
+    }</pre>
+
+                <div class="note">
+                    <strong>Note:</strong> For production use, replace self-signed certificates with proper SSL certificates.
+                </div>
+
+                <h4>5. Additional Configuration Options</h4>
+                <table>
+                    <tr>
+                        <th>Configuration</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                    <tr>
+                        <td>Custom Domain</td>
+                        <td>Set custom server name</td>
+                        <td><code>server_name example.com;</code></td>
+                    </tr>
+                    <tr>
+                        <td>Cache Control</td>
+                        <td>Configure browser caching</td>
+                        <td><code>add_header Cache-Control "public, max-age=2592000";</code></td>
+                    </tr>
+                    <tr>
+                        <td>Compression</td>
+                        <td>Enable/configure Gzip</td>
+                        <td><code>gzip_comp_level 6;</code></td>
+                    </tr>
+                </table>
+
+                <h4>6. Container Management</h4>
+                <pre>
+    # List running containers
+    podman ps
+
+    # Stop container
+    podman stop CONTAINER_ID
+
+    # Remove container
+    podman rm CONTAINER_ID
+
+    # View logs
+    podman logs CONTAINER_ID</pre>
+
+                <div class="warning">
+                    <strong>Security Note:</strong> When deploying to production:
+                    <ul>
+                        <li>Use proper SSL certificates</li>
+                        <li>Configure appropriate security headers</li>
+                        <li>Remove any sensitive information from archived content</li>
+                        <li>Follow NGINX security best practices</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    <div class="section" id="advanced">
+        <div class="section-header">
+            <h2>Advanced Usage</h2>
+            <span class="toggle-icon">▶</span>
+        </div>
+        <div class="section-content">
+            <h3>Custom Asset Handling</h3>
+            <p>The archiver automatically handles common asset types:</p>
+            <ul>
+                <li>Images (jpg, png, gif, svg)</li>
+                <li>Stylesheets (css)</li>
+                <li>JavaScript files (js)</li>
+                <li>Web fonts (woff, woff2, ttf)</li>
+            </ul>
+
+            <h3>Performance Tuning</h3>
+            <p>Tips for optimizing download performance:</p>
+            <ul>
+                <li>Adjust thread count based on your system capabilities</li>
+                <li>Use quiet mode (-q) to reduce CPU usage</li>
+                <li>Consider using an SSD for the output directory</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Add click handlers for section headers
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                content.classList.toggle('active');
+                header.classList.toggle('active');
+            });
+        });
+
+        // Add click handlers for TOC links
+        document.querySelectorAll('.toc a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = link.getAttribute('href');
+                const section = document.querySelector(sectionId);
+                section.scrollIntoView({ behavior: 'smooth' });
+                
+                // Open the section
+                const content = section.querySelector('.section-content');
+                const header = section.querySelector('.section-header');
+                content.classList.add('active');
+                header.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

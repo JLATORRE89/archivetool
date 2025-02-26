@@ -1,0 +1,14 @@
+# nginx/Containerfile
+FROM nginx:alpine
+
+# Copy configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Create directory for archived site
+WORKDIR /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start NGINX
+CMD ["nginx", "-g", "daemon off;"]
