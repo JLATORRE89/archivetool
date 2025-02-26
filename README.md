@@ -40,7 +40,7 @@ This tool offers two ways to run:
 ### Installation
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/website-archiver
+git clone https://github.com/JLATORRE89/website-archiver
 cd website-archiver
 
 # Install dependencies
