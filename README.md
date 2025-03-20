@@ -46,10 +46,10 @@ git clone https://github.com/JLATORRE89/website-archiver
 cd website-archiver
 
 # Install dependencies
-pip install -r requirements.txt
+pip install -r archiver/requirements.txt
 
 # Run GUI
-python gui.py
+python -m archiver.gui
 ```
 
 That's it! The GUI will open and you can start archiving websites.
@@ -84,12 +84,24 @@ Options:
 
 ```
 .
-├── gui.py               # GUI application (run directly)
-├── cli.py              # CLI application
-├── core.py             # Core archiver logic
-├── deployarchiver.py   # CLI container deployment
-├── nginx/             # Archived site viewer
-└── data/              # Shared data directory
+├── Containerfile         # Container definition
+├── deployarchiver.py     # CLI container deployment
+├── manual.html           # User documentation
+├── README.md             # This readme file
+├── archiver/             # Core application package
+│   ├── cli.py            # CLI application
+│   ├── core.py           # Core archiver logic
+│   ├── gui.py            # GUI application
+│   ├── requirements.txt  # Dependencies
+│   └── docker-entrypoint.sh # Container entrypoint
+├── nginx/                # Archived site viewer
+│   ├── Containerfile     # NGINX container definition
+│   ├── deploy.py         # Deployment script
+│   └── nginx.conf        # NGINX configuration
+├── data/                 # Shared data directory
+└── tests/                # Test suite
+    ├── requirements-test.txt # Test dependencies
+    └── test_archiver.py      # Test cases
 ```
 
 ## Viewing Archived Sites
@@ -109,7 +121,7 @@ The archived site will be available at http://localhost:8080
 
 1. Install dependencies:
 ```bash
-pip install -r requirements.txt
+pip install -r archiver/requirements.txt
 ```
 
 2. Install test dependencies:
@@ -120,6 +132,46 @@ pip install -r tests/requirements-test.txt
 3. Run tests:
 ```bash
 pytest tests/
+```
+
+### Testing
+
+The project includes a comprehensive test suite with unit tests, Selenium tests for dynamic content capture, and integration tests using a local test server.
+
+#### Test Requirements
+
+- **Basic Testing**: pytest, pytest-cov, pytest-mock, requests-mock
+- **Selenium Testing**: selenium, webdriver-manager
+- **Other Dependencies**: Pillow, BeautifulSoup4
+
+For Selenium tests to work properly:
+- Chrome browser must be installed
+- The tests will use webdriver-manager to automatically download the appropriate ChromeDriver
+- Tests will skip gracefully if Selenium or ChromeDriver is not available
+
+#### Running Specific Tests
+
+```bash
+# Run unit tests only
+pytest tests/test_archiver.py
+
+# Run Selenium tests
+pytest tests/test_selenium_capture.py
+
+# Run integration tests with test server
+pytest tests/test_integration.py
+
+# Run with coverage report
+pytest --cov=archiver tests/
+```
+
+#### Test Server
+
+The test suite includes a test server that creates a mini website with dynamic content for testing. You can use it independently:
+
+```bash
+python -m tests.test_server
+# Test server will run at http://localhost:8888
 ```
 
 ### Container Management
